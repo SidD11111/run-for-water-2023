@@ -1,5 +1,7 @@
 import './Registration.css'
 import PayPal from "../components/paypal";
+import {getFirestore, collection, addDoc, doc, setDoc, getDoc, getDocs, deleteDoc, query, orderBy} from 'firebase/firestore';
+import {db} from '../firebase.js';
 
 const Registration = () => {
     return(
@@ -8,27 +10,27 @@ const Registration = () => {
                 <form>
                     <div className="form-row">
                         <div className="form-group col-md-6">
-                            <label for="inputPassword4">First Name</label>
-                            <input type="password" className="form-control" id="inputPassword4" placeholder="First Name"/>
+                            <label>First Name</label>
+                            <input type="firstName" className="form-control" id="firstName" placeholder="First Name"/>
                         </div>
 
                         <div className="form-group col-md-6">
-                            <label for="inputPassword4">Last Name</label>
-                            <input type="password" className="form-control" id="inputPassword4" placeholder="Last Name"/>
+                            <label>Last Name</label>
+                            <input type="lastName" className="form-control" id="lastName" placeholder="Last Name"/>
                         </div>
                     </div>
 
                     <div className="form-group">
                         <div className="form-group col-md-6">
-                                <label for="inputEmail4">Email</label>
-                                <input type="email" className="form-control" id="inputEmail4" placeholder="example@gmail.com"/>
+                                <label>Email</label>
+                                <input type="email" className="form-control" id="email" placeholder="example@gmail.com"/>
                         </div>
                     </div>
 
 
                     <div className="form-row">
                         <div className="form-group col-md-6">
-                            <label for="inputState">Gender</label>
+                            <label>Gender</label>
                                 <select id="inputState" className="form-control">
                                     <option selected>Choose...</option>
                                     <option>Male</option>
@@ -40,7 +42,7 @@ const Registration = () => {
 
 
                         <div className="form-group col-md-2">
-                            <label for="inputState">Age</label>
+                            <label>Age</label>
                                 <select id="inputState" className="form-control">
                                     <option selected>Choose...</option>
                                     <option>8 and under</option>
@@ -58,7 +60,7 @@ const Registration = () => {
 
 
                         <div className="form-group col-md-4">
-                            <label for="inputState">Shirt Size (Adult Sizes)</label>
+                            <label>Shirt Size (Adult Sizes)</label>
                             <select id="inputState" className="form-control">
                                 <option selected>Choose...</option>
                                 <option>XS</option>
@@ -72,9 +74,10 @@ const Registration = () => {
                         
                     </div>
 
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" onClick = {addRunner} className="btn btn-primary">Submit</button>
                     
                 </form>
+
             </div>
 
             <div className = 'paymentSection'>
@@ -83,6 +86,29 @@ const Registration = () => {
 
         </div>
     );
+}
+
+async function addRunner(){
+    var firstName = document.getElementsByClassName('form-control')[0].value;
+    var lastName = document.getElementsByClassName('form-control')[1].value;
+    var email = document.getElementsByClassName('form-control')[2].value;
+    var gender = document.getElementsByClassName('form-control')[3].value;
+    var age = document.getElementsByClassName('form-control')[4].value;
+    var size = document.getElementsByClassName('form-control')[5].value;
+
+
+    await addDoc (collection(db, 'runners'), {
+        firstName : firstName,
+        lastName: lastName,
+        email: email,
+        gender: gender,
+        age: age,
+        size: size
+      });
+
+    console.log(document.getElementsByClassName('form-control')[3].value);
+
+    console.log('success!')
 }
 
 export default Registration;
