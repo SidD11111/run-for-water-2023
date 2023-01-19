@@ -74,9 +74,10 @@ const Registration = () => {
                         
                     </div>
 
-                    <button type="submit" onClick = {addRunner} className="btn btn-primary">Submit</button>
                     
                 </form>
+
+                <button type="submit" onClick = {addRunner} className="btn btn-primary">Submit</button>
 
             </div>
 
